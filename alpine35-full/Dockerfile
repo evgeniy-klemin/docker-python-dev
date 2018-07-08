@@ -2,7 +2,7 @@ FROM python:3.5-alpine
 
 MAINTAINER Evgeniy Klemin "evgeniy.klemin@gmail.com"
 
-ARG CONT_IMG_VER=alpine35-full-0.1.0
+ARG CONT_IMG_VER=alpine35-full-0.1.1
 ENV CONT_IMG_VER $CONT_IMG_VER
 
 
@@ -11,10 +11,10 @@ ENV CONT_IMG_VER $CONT_IMG_VER
 #==========================================================
 RUN apk add -U --no-cache --virtual .build-deps \
         # common
-		mariadb-dev \
-		gcc \
-		musl-dev \
-		python-dev \
+        mariadb-dev \
+        gcc \
+        musl-dev \
+        python-dev \
         # lxml
         libxslt-dev \
         libc-dev \
@@ -44,6 +44,12 @@ RUN apk add -U --no-cache --virtual .build-deps \
         numpy==1.14.3 \
         scipy==0.19.* \
         pandas==0.23.0 \
+    && find /usr/local -depth \
+		\( \
+			\( -type d -a \( -name test -o -name tests \) \) \
+			-o \
+			\( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
+		\) -exec rm -rf '{}' + \
     && apk add --no-cache --virtual .runtime-deps \
         mariadb-client-libs \
         musl \
