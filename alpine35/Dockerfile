@@ -1,8 +1,8 @@
-FROM python:3.5-alpine
+FROM python:3.5-alpine3.8
 
 MAINTAINER Evgeniy Klemin "evgeniy.klemin@gmail.com"
 
-ARG CONT_IMG_VER=alpine35-0.1.1
+ARG CONT_IMG_VER=alpine35-0.2.0
 ENV CONT_IMG_VER $CONT_IMG_VER
 
 
@@ -39,7 +39,7 @@ RUN apk add -U --no-cache --virtual .build-deps \
 			\( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
 		\) -exec rm -rf '{}' + \
     && apk add --no-cache --virtual .runtime-deps \
-        mariadb-client-libs \
+        mariadb-connector-c \
         # edxsession
         python2 \
         # django tests
