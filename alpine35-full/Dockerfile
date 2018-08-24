@@ -2,7 +2,7 @@ FROM python:3.5-alpine3.8
 
 MAINTAINER Evgeniy Klemin "evgeniy.klemin@gmail.com"
 
-ARG CONT_IMG_VER=alpine35-full-0.2.0
+ARG CONT_IMG_VER=alpine35-full-0.2.1
 ENV CONT_IMG_VER $CONT_IMG_VER
 
 
@@ -31,6 +31,10 @@ RUN apk add -U --no-cache --virtual .build-deps \
         build-base \
         libpng-dev \
         openblas-dev \
+        # pybrain
+        build-base \
+        libffi-dev \
+        libressl-dev \
     # numpy
     && ln -s /usr/include/locale.h /usr/include/xlocale.h \
 	&& pip install mysqlclient==1.3.13 \
@@ -46,6 +50,9 @@ RUN apk add -U --no-cache --virtual .build-deps \
         numpy==1.14.3 \
         scipy==0.19.* \
         pandas==0.23.0 \
+        # pybrain
+        structure \
+        git+https://github.com/pybrain/pybrain.git \
     && find /usr/local -depth \
 		\( \
 			\( -type d -a \( -name test -o -name tests \) \) \
@@ -72,6 +79,8 @@ RUN apk add -U --no-cache --virtual .build-deps \
         libpng \
         libstdc++ \
         openblas \
+        # pybrain
+        libffi \
 	&& apk del .build-deps \
     && rm -rf /usr/local/lib/python3.5/site-packages/magic/
 
