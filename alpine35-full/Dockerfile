@@ -2,7 +2,7 @@ FROM python:3.5-alpine
 
 MAINTAINER Evgeniy Klemin "evgeniy.klemin@gmail.com"
 
-ARG CONT_IMG_VER=alpine35-full-0.1.1
+ARG CONT_IMG_VER=alpine35-full-0.1.2
 ENV CONT_IMG_VER $CONT_IMG_VER
 
 
@@ -31,6 +31,8 @@ RUN apk add -U --no-cache --virtual .build-deps \
         build-base \
         libpng-dev \
         openblas-dev \
+    # numpy
+    && ln -s /usr/include/locale.h /usr/include/xlocale.h \
 	&& pip install mysqlclient==1.3.13 \
         # system
         lxml \
@@ -69,6 +71,7 @@ RUN apk add -U --no-cache --virtual .build-deps \
         libgcc \
         libpng \
         libstdc++ \
+        openblas \
 	&& apk del .build-deps \
     && rm -rf /usr/local/lib/python3.5/site-packages/magic/
 
